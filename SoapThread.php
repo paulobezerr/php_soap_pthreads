@@ -3,6 +3,7 @@
 namespace Soap;
 
 use Thread;
+use Exception;
 
 /**
  * This is the *Work* which would be ran by the worker.
