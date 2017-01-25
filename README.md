@@ -10,7 +10,7 @@ The code can be used as an example or a real implementation of SOAP requests in 
 
 ## Examples
 
-Example of usage using pool:
+### Without pimple with Pool
 
 ```php
 <?php
@@ -35,14 +35,27 @@ $elements = array(
     )
 );
 
-$pool = new Pool($numberOfThreads, Soap\SoapWorker::class, $workerParams);
+$pool = new Pool($numberOfThreads, Worker::class, $workerParams);
 
 foreach ($elements as $item) {
-    $pool->submit(new Soap\SoapThread(
+    $pool->submit(new Thread(
         $item['SOAP_FUNCTION'],
         $item['SOAP_PARAMS']
     ));
 }
 
+// Here we collect all soap results and put in array
+$soapResults = array();
+while ($pool->collect(function($thread) use (&$soapResults) {
+        if ($this->isGarbage()) {
+            $soapResults[] = $thread->soapResult;
+        }
+        return $this->isGarbage();
+    })) {
+    continue;
+};
+
 $pool->shutdown();
+
+var_dump($soapResults);
 ```

@@ -38,7 +38,7 @@ class Provider implements ServiceProviderInterface
 
         $pimple['soap_thread'] = $pimple->factory(function ($pimple) {
             return function ($functionName, $params) {
-                return new SoapThread($functionName, $params);
+                return new Thread($functionName, $params);
             };
         });
     }

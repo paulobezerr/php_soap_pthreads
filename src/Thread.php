@@ -4,6 +4,7 @@ namespace Soap;
 
 use Thread;
 use Exception;
+use SoapFault;
 
 /**
  * This is the *Work* which would be ran by the worker.
@@ -31,12 +32,6 @@ class SoapThread extends Thread
     private $soapResult;
 
     /**
-     * Error code and message when occours
-     * @var array
-     */
-    private $soapFault;
-
-    /**
      * The block of code in the constructor of your work,
      * would be executed when a work is submitted to your pool.
      *
@@ -60,7 +55,7 @@ class SoapThread extends Thread
             $soapClient = $this->worker->getSoap();
             $soapResult = $soapClient->__soapCall(
                 $this->soapFunction,
-                $this->soapParams
+                (array) $this->soapParams
             );
             $this->setSoapResult($soapResult);
         } catch (Exception $e) {
@@ -78,14 +73,6 @@ class SoapThread extends Thread
             );
         }
 
-        $this->soapResult = $result;
-    }
-
-    public function getSoapResult()
-    {
-        if (!is_null($this->soapFault)) {
-            return $this->soapFault;
-        }
-        return $this->soapResult;
+        $this->soapResult = (array) $result;
     }
 }
