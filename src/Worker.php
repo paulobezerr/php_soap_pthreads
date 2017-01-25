@@ -2,13 +2,13 @@
 
 namespace Soap;
 
-use Worker;
+use Worker as PthreadsWorker;
 use SoapClient;
 
 /**
  * Create an empty worker for the sake of simplicity.
  */
-class SoapWorker extends Worker
+class Worker extends PthreadsWorker
 {
     private static $soap;
 

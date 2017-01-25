@@ -2,7 +2,7 @@
 
 namespace Soap;
 
-use Thread;
+use Thread as PthreadsThread;
 use Exception;
 use SoapFault;
 
@@ -11,7 +11,7 @@ use SoapFault;
  * The work which you'd want to do in your worker.
  * This class needs to extend the \Threaded or \Collectable or \Thread class.
  */
-class SoapThread extends Thread
+class Thread extends PthreadsThread
 {
     /**
      * The SOAP function name that will be called

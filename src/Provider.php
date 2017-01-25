@@ -2,6 +2,7 @@
 
 namespace Soap;
 
+use RuntimeException;
 use SoapClient;
 use Pool;
 
@@ -22,21 +23,27 @@ class Provider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['soap_pool'] = $pimple->factory(function ($pimple) {
-            $numberOfThreads = $pimple['config']['wsdl']['threads'];
-            $paramsToWorker = array(
-                $pimple['config']['wsdl']['provisioning'],
-                array('trace' => false, 'exceptions' => false)
-            );
+        $pimple['soap_pool_threads'] = 1;
+        $pimple['soap_pool_url'] = '';
+        $pimple['soap_pool_config'] = array();
+
+        $pimple['soap_pool_factory'] = $pimple->factory(function ($pimple) {
+            if (empty($pimple['soap_pool_url'])) {
+                throw new RuntimeException('The WSDL URL must be set');
+            }
+
+            $mandatoryConfig = array('trace' => false, 'exceptions' => false);
+            $config = $pimple['soap_pool_config'] + $mandatoryConfig;
+            $paramsToWorker = array($pimple['soap_pool_url'], $config);
 
             return new Pool(
-                $numberOfThreads,
-                SoapWorker::class,
+                $pimple['soap_pool_threads'],
+                Worker::class,
                 $paramsToWorker
             );
         });
 
-        $pimple['soap_thread'] = $pimple->factory(function ($pimple) {
+        $pimple['soap_thread_factory'] = $pimple->factory(function ($pimple) {
             return function ($functionName, $params) {
                 return new Thread($functionName, $params);
             };

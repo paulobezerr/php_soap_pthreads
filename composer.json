@@ -16,6 +16,7 @@
     },
     "require" : {
         "php" : "^7.0",
-        "ext-pthreads": "*"
+        "ext-pthreads": "^3.1",
+        "pimple/pimple": "^3.0"
     }
 }
