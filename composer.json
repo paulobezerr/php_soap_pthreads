@@ -2,7 +2,7 @@
     "name": "paulobezerr/soap_threads",
     "description": "Simple code to make SOAP requests with thread",
     "type": "library",
-    "license": "GPL",
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "Bezerra",
