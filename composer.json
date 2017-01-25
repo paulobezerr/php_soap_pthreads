@@ -14,5 +14,8 @@
             "Soap\\": "src/"
         }
     },
-    "require": {}
+    "require" : {
+        "php" : "^7.0",
+        "ext-pthreads": "*"
+    }
 }
