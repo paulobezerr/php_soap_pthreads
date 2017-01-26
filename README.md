@@ -1,5 +1,8 @@
 # SOAP threaded
 
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/paulobezerr/php_soap_pthreads.svg)](http://isitmaintained.com/project/paulobezerr/php_soap_pthreads "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/paulobezerr/php_soap_pthreads.svg)](http://isitmaintained.com/project/paulobezerr/php_soap_pthreads "Percentage of issues still open")
+
 This is a very simple library that facilitates the SOAP threaded requests.  
 The code can be used as an example of pthread usage or a real implementation of SOAP requests in separated threads.
 
