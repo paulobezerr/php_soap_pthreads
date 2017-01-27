@@ -44,6 +44,8 @@ foreach ($elements as $item) {
     );
 }
 
+$workerCount = count($elements);
+
 // Here we collect all soap results and put in array
 $soapResults = array();
 while ($soapPool->collect(function(Soap\Thread $thread) use (&$soapResults) {
@@ -51,7 +53,7 @@ while ($soapPool->collect(function(Soap\Thread $thread) use (&$soapResults) {
             $soapResults[] = $thread->soapResult;
         }
         return $thread->isGarbage();
-    })) {
+    }) || count($soapResults) < $workerCount) {
     continue;
 };
 
@@ -94,6 +96,8 @@ foreach ($elements as $item) {
     ));
 }
 
+$workerCount = count($elements);
+
 // Here we collect all soap results and put in array
 $soapResults = array();
 while ($pool->collect(function($thread) use (&$soapResults) {
@@ -101,7 +105,7 @@ while ($pool->collect(function($thread) use (&$soapResults) {
             $soapResults[] = $thread->soapResult;
         }
         return $thread->isGarbage();
-    })) {
+    }) || count($soapResults) < $workerCount) {
     continue;
 };
 
