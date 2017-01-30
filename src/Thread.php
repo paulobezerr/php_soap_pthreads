@@ -32,6 +32,18 @@ class Thread extends PthreadsThread
     private $soapResult;
 
     /**
+     * UNIX time stamp of when the SOAP request start in "microseconds".
+     * @var float
+     */
+    private $dateStarted;
+
+    /**
+     * UNIX time stamp of when the SOAP request end in "microseconds".
+     * @var float
+     */
+    private $dateEnded;
+
+    /**
      * The block of code in the constructor of your work,
      * would be executed when a work is submitted to your pool.
      *
@@ -53,10 +65,12 @@ class Thread extends PthreadsThread
     {
         try {
             $soapClient = $this->worker->getSoap();
+            $this->dateStarted = microtime(true);
             $soapResult = $soapClient->__soapCall(
                 $this->soapFunction,
                 (array) $this->soapParams
             );
+            $this->dateEnded = microtime(true);
             $this->setSoapResult($soapResult);
         } catch (Exception $e) {
             printf("\tError in execute function: %s", $e->getMessage());
